@@ -1,5 +1,16 @@
 'use strict';
 
+const path = require(`path`)
+
+let activeEnv = process.env.ACTIVE_ENV || process.env.NODE_ENV || "development";
+
+console.log(`Using environment config: '${activeEnv}'`);
+
+require("dotenv").config({
+  path: `.env.${activeEnv}`
+});
+
+
 const siteConfig = require('./config.js');
 const postCssPlugins = require('./postcss-config.js');
 
@@ -168,7 +179,7 @@ module.exports = {
     {
       resolve: `gatsby-plugin-google-analytics`,
       options: {
-        trackingId: 'UA-132763679-1'
+        trackingId: process.env.GOOGLE_ANALYTICS
       }
     },
     {
@@ -176,6 +187,13 @@ module.exports = {
       options: {
         lang: 'en'
       }
-    }
+    },
+    {
+      resolve: `gatsby-source-ghost`,
+      options: {
+          apiUrl: process.env.GHOST_API_URL,
+          contentApiKey: process.env.GHOST_CONTENT_API_KEY
+      }
+   }
   ]
 };

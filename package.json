@@ -1,9 +1,19 @@
 {
-  "name": "gatsby-starter-hello-world",
+  "name": "gatsby-starter-lumen-ghost",
   "private": true,
-  "description": "A simplified bare-bones starter for Gatsby",
+  "description": "Custom configured use of lumen theme with ghost",
   "version": "0.1.0",
+  "author": "Ayush Sharma",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ayu15/gatsby-lumen-ghost"
+  },
+  "keywords": [
+    "gatsby",
+    "ghost",
+    "lumen"
+  ],
   "scripts": {
     "build": "gatsby build",
     "develop": "gatsby develop",
@@ -22,9 +32,9 @@
     "gatsby-plugin-offline": "^2.0.25",
     "gatsby-plugin-react-helmet": "^3.0.12",
     "gatsby-plugin-sass": "^2.0.11",
-    "gatsby-plugin-typescript": "^2.0.0",
     "gatsby-plugin-sharp": "^2.0.32",
     "gatsby-plugin-sitemap": "^2.0.12",
+    "gatsby-plugin-typescript": "^2.0.0",
     "gatsby-remark-autolink-headers": "^2.0.16",
     "gatsby-remark-copy-linked-files": "^2.0.11",
     "gatsby-remark-images": "^3.0.10",
@@ -33,6 +43,7 @@
     "gatsby-remark-responsive-iframe": "^2.1.1",
     "gatsby-remark-smartypants": "^2.0.9",
     "gatsby-source-filesystem": "^2.0.29",
+    "gatsby-source-ghost": "^3.3.0",
     "gatsby-transformer-remark": "^2.3.8",
     "gatsby-transformer-sharp": "^2.1.17",
     "lodash": "^4.17.11",
@@ -51,19 +62,12 @@
     "awesome-typescript-loader": "^5.2.1",
     "invariant": "^2.2.4",
     "lost": "8.3.1",
-    "prettier": "^1.17.0",
     "postcss-pxtorem": "4.0.1",
+    "prettier": "^1.17.0",
+    "source-map-loader": "^0.2.4",
     "stylelint": "9.10.1",
     "stylelint-config-recommended-scss": "3.2.0",
     "stylelint-scss": "3.5.4",
-    "source-map-loader": "^0.2.4",
     "typescript": "^3.1.3"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/gatsbyjs/gatsby-starter-hello-world"
-  },
-  "bugs": {
-    "url": "https://github.com/gatsbyjs/gatsby/issues"
   }
 }
