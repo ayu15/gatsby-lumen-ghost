@@ -11,11 +11,15 @@ const Post = ({ post }) => {
   const {
     tags,
     title,
-    date
-  } = post.frontmatter;
+    updated_at : date,
+    html
+  } = post;
 
-  const { html } = post;
-  const { tagSlugs } = post.fields;
+  const tagSlugs = tags.map((tag) => tag.slug)
+  const tagNames = tags.map((tag) => tag.name)
+
+  console.log('tag slugs are', tagSlugs);
+  console.log('tag names are', tagNames);
 
   return (
     <div className={styles['post']}>
@@ -27,12 +31,12 @@ const Post = ({ post }) => {
 
       <div className={styles['post__footer']}>
         <Meta date={date} />
-        <Tags tags={tags} tagSlugs={tagSlugs} />
+        <Tags tags={tagNames} tagSlugs={tagSlugs} />
         <Author />
       </div>
 
       <div className={styles['post__comments']}>
-        <Comments postSlug={post.fields.slug} postTitle={post.frontmatter.title} />
+        <Comments postSlug={post.slug} postTitle={post.title} />
       </div>
     </div>
   );

@@ -27,42 +27,51 @@ const createPages = async ({ graphql, actions }) => {
     component: path.resolve('./src/templates/categories-list-template.js')
   });
 
-  // Posts and pages from markdown
-  const result = await graphql(`
-    {
-      allMarkdownRemark(
-        filter: { frontmatter: { draft: { ne: true } } }
-      ) {
+  // Posts
+  const posts = await graphql(`
+  {
+    allGhostPost(
+        sort: {order: ASC, fields: published_at}
+    ) {
         edges {
-          node {
-            frontmatter {
-              template
+            node {
+                slug
             }
-            fields {
-              slug
-            }
-          }
         }
       }
-    }
-  `);
+    }`
+  )
 
-  const { edges } = result.data.allMarkdownRemark;
+  _.each(posts.data.allGhostPost.edges, (edge) => {
+    createPage({
+      path: edge.node.slug,
+      component: path.resolve('./src/templates/post-template.js'),
+      context: { slug: edge.node.slug }
+    });
+  });
 
-  _.each(edges, (edge) => {
-    if (_.get(edge, 'node.frontmatter.template') === 'page') {
-      createPage({
-        path: edge.node.fields.slug,
-        component: path.resolve('./src/templates/page-template.js'),
-        context: { slug: edge.node.fields.slug }
-      });
-    } else if (_.get(edge, 'node.frontmatter.template') === 'post') {
-      createPage({
-        path: edge.node.fields.slug,
-        component: path.resolve('./src/templates/post-template.js'),
-        context: { slug: edge.node.fields.slug }
-      });
-    }
+// Pages
+  const pages = await graphql(`
+  {
+    allGhostPage(
+        sort: {order: ASC, fields: published_at}
+    ) {
+        edges {
+            node {
+                slug
+                url
+            }
+        }
+      }
+    }`
+  )
+
+  _.each(pages.data.allGhostPage.edges, (edge) => {
+    createPage({
+      path: edge.node.slug,
+      component: path.resolve('./src/templates/page-template.js'),
+      context: { slug: edge.node.slug }
+    });
   });
 
   // Feeds

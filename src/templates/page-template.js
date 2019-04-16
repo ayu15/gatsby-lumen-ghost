@@ -12,10 +12,10 @@ const PageTemplate = ({ data }) => {
 
   const {
     title: pageTitle,
-    description: pageDescription
-  } = data.markdownRemark.frontmatter;
+    meta_description: pageDescription
+  } = data.ghostPage;
 
-  const { html: pageBody } = data.markdownRemark;
+  const { html: pageBody } = data.ghostPage;
 
   const metaDescription = pageDescription !== null ? pageDescription : siteSubtitle;
 
@@ -37,14 +37,13 @@ export const query = graphql`
         subtitle
       }
     }
-    markdownRemark(fields: { slug: { eq: $slug } }) {
+    ghostPage (slug: { eq: $slug }) {
       id
       html
-      frontmatter {
-        title
-        date
-        description
-      }
+      slug
+      updated_at
+      title
+      meta_description
     }
   }
 `;

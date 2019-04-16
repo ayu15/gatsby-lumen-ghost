@@ -8,14 +8,14 @@ module.exports = async (graphql, actions) => {
 
   const result = await graphql(`
     {
-      allMarkdownRemark(
-        filter: { frontmatter: { template: { eq: "post" }, draft: { ne: true } } }
-      ) { totalCount }
+      allGhostPost { 
+        totalCount
+      }
     }
   `);
 
   const { postsPerPage } = siteConfig;
-  const numPages = Math.ceil(result.data.allMarkdownRemark.totalCount / postsPerPage);
+  const numPages = Math.ceil(result.data.allGhostPost.totalCount / postsPerPage);
 
   for (let i = 0; i < numPages; i += 1) {
     createPage({

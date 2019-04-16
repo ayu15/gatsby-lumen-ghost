@@ -10,27 +10,29 @@ module.exports = async (graphql, actions) => {
 
   const result = await graphql(`
     {
-      allMarkdownRemark(
-        filter: { frontmatter: { template: { eq: "post" }, draft: { ne: true } } }
-      ) {
-        group(field: frontmatter___tags) {
-          fieldValue
-          totalCount
+      allGhostTag {
+        totalCount
+        edges {
+          node {
+            slug
+            name
+          }
         }
       }
     }
   `);
 
-  _.each(result.data.allMarkdownRemark.group, (tag) => {
-    const numPages = Math.ceil(tag.totalCount / postsPerPage);
-    const tagSlug = `/tag/${_.kebabCase(tag.fieldValue)}`;
+  _.each(result.data.allGhostTag.edges, (tag) => {
+    const numPages = Math.ceil(result.data.allGhostTag.totalCount / postsPerPage);
+    const tagSlug = `/tag/${tag.node.slug}`;
 
     for (let i = 0; i < numPages; i += 1) {
       createPage({
         path: i === 0 ? tagSlug : `${tagSlug}/page/${i}`,
         component: path.resolve('./src/templates/tag-template.js'),
         context: {
-          tag: tag.fieldValue,
+          tagName: tag.node.name,
+          tagSlug: tag.node.slug,
           currentPage: i,
           postsLimit: postsPerPage,
           postsOffset: i * postsPerPage,

@@ -13,7 +13,7 @@ const TagTemplate = ({ data, pageContext }) => {
   } = data.site.siteMetadata;
 
   const {
-    tag,
+    tagName,
     currentPage,
     prevPagePath,
     nextPagePath,
@@ -21,13 +21,13 @@ const TagTemplate = ({ data, pageContext }) => {
     hasNextPage
   } = pageContext;
 
-  const { edges } = data.allMarkdownRemark;
-  const pageTitle = currentPage > 0 ? `All Posts tagged as "${tag}" - Page ${currentPage} - ${siteTitle}` : `All Posts tagged as "${tag}" - ${siteTitle}`;
+  const { edges } = data.allGhostPost;
+  const pageTitle = currentPage > 0 ? `All Posts tagged as "${tagName}" - Page ${currentPage} - ${siteTitle}` : `All Posts tagged as "${tagName}" - ${siteTitle}`;
 
   return (
     <Layout title={pageTitle} description={siteSubtitle}>
       <Sidebar />
-      <Page title={tag}>
+      <Page title={tagName}>
         <Feed edges={edges} />
         <Pagination
           prevPagePath={prevPagePath}
@@ -41,31 +41,22 @@ const TagTemplate = ({ data, pageContext }) => {
 };
 
 export const query = graphql`
-  query TagPage($tag: String, $postsLimit: Int!, $postsOffset: Int!) {
+  query TagPage($tagSlug: String, $postsLimit: Int!, $postsOffset: Int!) {
     site {
       siteMetadata {
         title
         subtitle
       }
     }
-    allMarkdownRemark(
-        limit: $postsLimit,
-        skip: $postsOffset,
-        filter: { frontmatter: { tags: { in: [$tag] }, template: { eq: "post" }, draft: { ne: true } } },
-        sort: { order: DESC, fields: [frontmatter___date] }
-      ){
+    allGhostPost (limit:$postsLimit, skip: $postsOffset, filter: {tags : {elemMatch : {slug : { in: [$tagSlug]}}}})
+    {
+      totalCount
       edges {
         node {
-          fields {
-            slug
-            categorySlug
-          }
-          frontmatter {
-            title
-            date
-            category
-            description
-          }
+          slug
+          title
+          updated_at
+          excerpt
         }
       }
     }

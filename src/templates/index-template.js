@@ -20,7 +20,7 @@ const IndexTemplate = ({ data, pageContext }) => {
     nextPagePath
   } = pageContext;
 
-  const { edges } = data.allMarkdownRemark;
+  const { edges } = data.allGhostPost;
   const pageTitle = currentPage > 0 ? `Posts - Page ${currentPage} - ${siteTitle}` : siteTitle;
 
   return (
@@ -47,24 +47,17 @@ export const query = graphql`
         subtitle
       }
     }
-    allMarkdownRemark(
+    allGhostPost (
         limit: $postsLimit,
         skip: $postsOffset,
-        filter: { frontmatter: { template: { eq: "post" }, draft: { ne: true } } },
-        sort: { order: DESC, fields: [frontmatter___date] }
+        sort: { order: DESC, fields: [updated_at] }
       ){
       edges {
         node {
-          fields {
-            slug
-            categorySlug
-          }
-          frontmatter {
-            title
-            date
-            category
-            description
-          }
+          slug
+          title
+          updated_at
+          excerpt
         }
       }
     }

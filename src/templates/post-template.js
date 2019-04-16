@@ -11,14 +11,14 @@ const PostTemplate = ({ data }) => {
 
   const {
     title: postTitle,
-    description: postDescription
-  } = data.markdownRemark.frontmatter;
+    meta_description: postDescription
+  } = data.ghostPost;
 
   const metaDescription = postDescription !== null ? postDescription : siteSubtitle;
 
   return (
     <Layout title={`${postTitle} - ${siteTitle}`} description={metaDescription}>
-      <Post post={data.markdownRemark} />
+      <Post post={data.ghostPost} />
     </Layout>
   );
 };
@@ -39,19 +39,21 @@ export const query = graphql`
         url
       }
     }
-    markdownRemark(fields: { slug: { eq: $slug } }) {
+    ghostPost(slug: { eq: $slug }) {
       id
       html
-      fields {
+      slug
+      updated_at
+      meta_description
+      primary_tag {
+        name
         slug
-        tagSlugs
       }
-      frontmatter {
-        date
-        description
-        tags
-        title
+      tags {
+        slug
+        name
       }
+      title
     }
   }
 `;

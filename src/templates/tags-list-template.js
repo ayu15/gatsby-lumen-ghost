@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link, graphql } from 'gatsby';
-import kebabCase from 'lodash/kebabCase';
 import Layout from '../components/Layout';
 import Sidebar from '../components/Sidebar';
 import Page from '../components/Page';
@@ -10,17 +9,17 @@ const TagsListTemplate = ({ data }) => {
     title,
     subtitle
   } = data.site.siteMetadata;
-  const { group } = data.allMarkdownRemark;
+  const items = data.allGhostTag.edges;
 
   return (
     <Layout title={`Tags - ${title}`} description={subtitle}>
       <Sidebar />
       <Page title="Tags">
         <ul>
-          {group.map((tag) => (
-            <li key={tag.fieldValue}>
-              <Link to={`/tag/${kebabCase(tag.fieldValue)}/`}>
-                {tag.fieldValue} ({tag.totalCount})
+          {items.map(({ node }) => (
+            <li key={node.slug}>
+              <Link to={`/tag/${node.slug}/`}>
+                {node.slug} ({node.postCount})
               </Link>
             </li>
           ))}
@@ -38,15 +37,18 @@ export const query = graphql`
         subtitle
       }
     }
-    allMarkdownRemark(
-      filter: { frontmatter: { template: { eq: "post" }, draft: { ne: true } } }
+    allGhostTag(
+        sort: {order: ASC, fields: name}
     ) {
-      group(field: frontmatter___tags) {
-        fieldValue
-        totalCount
-      }
+        edges {
+            node {
+                slug
+                url
+                postCount
+            }
+        }
     }
-  }
+}
 `;
 
 export default TagsListTemplate;

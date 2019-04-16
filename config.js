@@ -7,7 +7,9 @@ module.exports = {
   copyright: '© All rights reserved.',
   disqusShortname: '',
   postsPerPage: 4,
-  googleAnalyticsId: 'UA-73379983-2',
+  googleAnalytics: {
+    trackingId: process.env.GOOGLE_ANALYTICS
+  },
   menu: [
     {
       label: 'Articles',
@@ -15,11 +17,11 @@ module.exports = {
     },
     {
       label: 'About me',
-      path: '/pages/about'
+      path: '/about'
     },
     {
       label: 'Contact me',
-      path: '/pages/contacts'
+      path: '/contact'
     }
   ],
   author: {
@@ -27,12 +29,16 @@ module.exports = {
     photo: '/photo.png',
     bio: 'Web developer, front-end specialist',
     contacts: {
-      email: '#',
+      email: 'ayush.sharma1505@gmail.com',
       telegram: '#',
-      twitter: '#',
-      github: '#',
+      twitter: 'heyayush',
+      github: 'ayu15',
       rss: '#',
       vkontakte: '#'
     }
+  },
+  ghost: {
+    apiUrl: process.env.GHOST_API_URL,
+    contentApiKey: process.env.GHOST_CONTENT_API_KEY
   }
 };

@@ -178,9 +178,7 @@ module.exports = {
     },
     {
       resolve: `gatsby-plugin-google-analytics`,
-      options: {
-        trackingId: process.env.GOOGLE_ANALYTICS
-      }
+      options: {...siteConfig.googleAnalytics}
     },
     {
       resolve: 'gatsby-plugin-html-attributes',
@@ -190,10 +188,7 @@ module.exports = {
     },
     {
       resolve: `gatsby-source-ghost`,
-      options: {
-          apiUrl: process.env.GHOST_API_URL,
-          contentApiKey: process.env.GHOST_CONTENT_API_KEY
-      }
+      options: {...siteConfig.ghost}
    }
   ]
 };
